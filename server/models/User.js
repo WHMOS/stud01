@@ -57,6 +57,17 @@ class User {
 
   static async update(id, userData) {
     const { username, password, name, role, permissions } = userData;
+    
+    console.log('📝 User.update - البيانات الواردة:', userData);
+    
+    // إذا كان التحديث للصلاحيات فقط
+    if (permissions && Object.keys(userData).length === 1) {
+      const query = 'UPDATE users SET permissions = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?';
+      const result = await executeQuery(query, [JSON.stringify(permissions), id]);
+      console.log('✅ تم تحديث الصلاحيات، عدد الصفوف المتأثرة:', result.affectedRows);
+      return result.affectedRows > 0;
+    }
+    
     let query = 'UPDATE users SET username = ?, name = ?, role = ?, permissions = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?';
     let params = [username, name, role, JSON.stringify(permissions || {}), id];
     
@@ -66,7 +77,9 @@ class User {
       params = [username, hashedPassword, name, role, JSON.stringify(permissions || {}), id];
     }
     
+    console.log('📊 معاملات التحديث:', params);
     const result = await executeQuery(query, params);
+    console.log('✅ نتيجة التحديث:', result.affectedRows);
     return result.affectedRows > 0;
   }
 

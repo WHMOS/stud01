@@ -53,15 +53,8 @@ class Location {
   }
 
   static async delete(id) {
-    // Check if location is being used in any sessions
-    const usageQuery = 'SELECT COUNT(*) as count FROM sessions WHERE location_id = ?';
-    const usage = await executeQuery(usageQuery, [id]);
-    
-    if (usage[0].count > 0) {
-      throw new Error('لا يمكن حذف هذا المكان لأنه مستخدم في جلسات موجودة');
-    }
-
-    const query = 'UPDATE locations SET is_active = FALSE WHERE id = ?';
+    // حذف فعلي من قاعدة البيانات
+    const query = 'DELETE FROM locations WHERE id = ?';
     const result = await executeQuery(query, [id]);
     return result.affectedRows > 0;
   }

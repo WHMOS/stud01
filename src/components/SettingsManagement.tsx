@@ -69,6 +69,23 @@ export const SettingsManagement: React.FC = () => {
   };
 
   const handleDelete = async (id: string) => {
+    // التحقق من الارتباطات قبل الحذف
+    if (activeTab === 'subjects') {
+      const subjectTeachers = teachers.filter(t => t.subjectId === id);
+      if (subjectTeachers.length > 0) {
+        alert(`لا يمكن حذف المادة لأنها مرتبطة بـ ${subjectTeachers.length} معلم. يرجى إزالة المادة من المعلمين أولاً.`);
+        return;
+      }
+    }
+    
+    if (activeTab === 'locations') {
+      const locationSessions = sessions.filter(s => s.locationId === id);
+      if (locationSessions.length > 0) {
+        alert(`لا يمكن حذف المكان لأنه مستخدم في ${locationSessions.length} جلسة.`);
+        return;
+      }
+    }
+    
     if (window.confirm('هل أنت متأكد من حذف هذا العنصر؟')) {
       try {
         if (activeTab === 'locations') {

@@ -57,7 +57,8 @@ class Student {
   }
 
   static async delete(id) {
-    const query = 'UPDATE students SET is_active = FALSE WHERE id = ?';
+    // حذف فعلي من قاعدة البيانات
+    const query = 'DELETE FROM students WHERE id = ?';
     const result = await executeQuery(query, [id]);
     return result.affectedRows > 0;
   }

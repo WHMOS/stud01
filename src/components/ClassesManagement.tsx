@@ -44,10 +44,19 @@ export const ClassesManagement: React.FC = () => {
 
   const handleDelete = (id: string) => {
     const classStudents = students.filter(s => s.classId === id);
+    const classSessions = sessions.filter(s => s.classId === id);
+    
     if (classStudents.length > 0) {
       alert(`لا يمكن حذف الفصل لأنه يحتوي على ${classStudents.length} طالب`);
       return;
     }
+    
+    if (classSessions.length > 0) {
+      if (!window.confirm(`هذا الفصل لديه ${classSessions.length} جلسة. هل أنت متأكد من الحذف؟ سيتم حذف جميع الجلسات أيضاً.`)) {
+        return;
+      }
+    }
+    
     if (window.confirm('هل أنت متأكد من حذف هذا الفصل؟')) {
       deleteClass(id);
     }

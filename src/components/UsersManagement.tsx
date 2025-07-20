@@ -70,6 +70,7 @@ export const UsersManagement: React.FC = () => {
   };
 
   const handleSavePermissions = () => {
+    console.log('💾 حفظ الصلاحيات:', showPermissionsModal.userId, userPermissions);
     updateUser(showPermissionsModal.userId, { permissions: userPermissions });
     setShowPermissionsModal({ show: false, userId: '', userName: '' });
   };

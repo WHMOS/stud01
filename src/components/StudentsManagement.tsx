@@ -73,6 +73,14 @@ export const StudentsManagement: React.FC = () => {
   };
 
   const handleDelete = (id: string) => {
+    // التحقق من وجود سجلات حضور للطالب
+    const studentAttendance = attendance.filter(a => a.studentId === id);
+    if (studentAttendance.length > 0) {
+      if (!window.confirm(`هذا الطالب لديه ${studentAttendance.length} سجل حضور. هل أنت متأكد من الحذف؟ سيتم حذف جميع سجلات الحضور أيضاً.`)) {
+        return;
+      }
+    }
+    
     if (window.confirm('هل أنت متأكد من حذف هذا الطالب؟')) {
       deleteStudent(id);
     }

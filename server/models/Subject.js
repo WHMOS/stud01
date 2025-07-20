@@ -40,15 +40,8 @@ class Subject {
   }
 
   static async delete(id) {
-    // Check if subject is being used by any teachers
-    const usageQuery = 'SELECT COUNT(*) as count FROM teachers WHERE subject_id = ?';
-    const usage = await executeQuery(usageQuery, [id]);
-    
-    if (usage[0].count > 0) {
-      throw new Error('لا يمكن حذف هذه المادة لأنها مرتبطة بمعلمين');
-    }
-
-    const query = 'UPDATE subjects SET is_active = FALSE WHERE id = ?';
+    // حذف فعلي من قاعدة البيانات
+    const query = 'DELETE FROM subjects WHERE id = ?';
     const result = await executeQuery(query, [id]);
     return result.affectedRows > 0;
   }

@@ -48,6 +48,13 @@ export const TeachersManagement: React.FC = () => {
   };
 
   const handleDelete = (id: string) => {
+    // التحقق من ارتباط المعلم بفصول
+    const teacherClasses = classes.filter(c => c.teacherId === id);
+    if (teacherClasses.length > 0) {
+      alert(`لا يمكن حذف المعلم لأنه مرتبط بـ ${teacherClasses.length} فصل. يرجى إزالة المعلم من الفصول أولاً.`);
+      return;
+    }
+    
     if (window.confirm('هل أنت متأكد من حذف هذا المعلم؟')) {
       deleteTeacher(id);
     }

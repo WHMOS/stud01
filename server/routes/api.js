@@ -100,7 +100,24 @@ router.post('/users', async (req, res) => {
 
 router.put('/users/:id', async (req, res) => {
   try {
+    console.log('✏️ تحديث المستخدم:', req.params.id, req.body);
+    
+    // التحقق من وجود المستخدم
+    const existingUser = await executeQuery('SELECT * FROM users WHERE id = ?', [req.params.id]);
+    if (existingUser.length === 0) {
+      return res.status(404).json({ success: false, message: 'المستخدم غير موجود' });
+    }
+    
+    // إذا كان التحديث يتضمن الصلاحيات فقط
+    if (req.body.permissions && Object.keys(req.body).length === 1) {
+      const query = 'UPDATE users SET permissions = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?';
+      const result = await executeQuery(query, [JSON.stringify(req.body.permissions), req.params.id]);
+      console.log('✅ تم تحديث صلاحيات المستخدم');
+      return res.json({ success: result.affectedRows > 0 });
+    }
+    
     const success = await User.update(req.params.id, req.body);
+    console.log('✅ نتيجة تحديث المستخدم:', success);
     res.json({ success });
   } catch (error) {
     console.error('خطأ في تحديث المستخدم:', error);
@@ -197,6 +214,19 @@ router.put('/students/:id', async (req, res) => {
 router.delete('/students/:id', async (req, res) => {
   try {
     console.log('🗑️ حذف الطالب من قاعدة البيانات:', req.params.id);
+    
+    // التحقق من وجود سجلات حضور للطالب
+    const attendanceRecords = await executeQuery('SELECT COUNT(*) as count FROM attendance WHERE student_id = ?', [req.params.id]);
+    if (attendanceRecords[0].count > 0) {
+      return res.status(400).json({ 
+        success: false, 
+        message: `لا يمكن حذف الطالب لأنه يحتوي على ${attendanceRecords[0].count} سجل حضور` 
+      });
+    }
+    
+    // حذف فعلي من قاعدة البيانات
+    const query = 'DELETE FROM students WHERE id = ?';
+    const result = await executeQuery(query, [req.params.id]);
     const success = await Student.delete(req.params.id);
     console.log('✅ نتيجة حذف الطالب:', success);
     res.json({ success });
@@ -309,7 +339,17 @@ router.delete('/classes/:id', async (req, res) => {
       });
     }
     
-    const query = 'UPDATE classes SET is_active = FALSE WHERE id = ?';
+    // التحقق من وجود جلسات للفصل
+    const sessionsInClass = await executeQuery('SELECT COUNT(*) as count FROM sessions WHERE class_id = ?', [req.params.id]);
+    if (sessionsInClass[0].count > 0) {
+      return res.status(400).json({ 
+        success: false, 
+        message: `لا يمكن حذف الفصل لأنه يحتوي على ${sessionsInClass[0].count} جلسة` 
+      });
+    }
+    
+    // حذف فعلي من قاعدة البيانات
+    const query = 'DELETE FROM classes WHERE id = ?';
     const result = await executeQuery(query, [req.params.id]);
     console.log('✅ نتيجة حذف الفصل:', result.affectedRows > 0);
     res.json({ success: result.affectedRows > 0 });
@@ -387,7 +427,8 @@ router.delete('/teachers/:id', async (req, res) => {
       });
     }
     
-    const query = 'UPDATE teachers SET is_active = FALSE WHERE id = ?';
+    // حذف فعلي من قاعدة البيانات
+    const query = 'DELETE FROM teachers WHERE id = ?';
     const result = await executeQuery(query, [req.params.id]);
     console.log('✅ نتيجة حذف المعلم:', result.affectedRows > 0);
     res.json({ success: result.affectedRows > 0 });
@@ -438,6 +479,20 @@ router.put('/subjects/:id', async (req, res) => {
 
 router.delete('/subjects/:id', async (req, res) => {
   try {
+    console.log('🗑️ حذف المادة من قاعدة البيانات:', req.params.id);
+    
+    // التحقق من وجود معلمين مرتبطين بالمادة
+    const teachersWithSubject = await executeQuery('SELECT COUNT(*) as count FROM teachers WHERE subject_id = ?', [req.params.id]);
+    if (teachersWithSubject[0].count > 0) {
+      return res.status(400).json({ 
+        success: false, 
+        message: `لا يمكن حذف المادة لأنها مرتبطة بـ ${teachersWithSubject[0].count} معلم` 
+      });
+    }
+    
+    // حذف فعلي من قاعدة البيانات
+    const query = 'DELETE FROM subjects WHERE id = ?';
+    const result = await executeQuery(query, [req.params.id]);
     const success = await Subject.delete(req.params.id);
     res.json({ success });
   } catch (error) {
@@ -522,7 +577,17 @@ router.delete('/locations/:id', async (req, res) => {
     console.log('🗑️ حذف المكان:', req.params.id);
     const { id } = req.params;
     
-    const query = 'UPDATE locations SET is_active = FALSE WHERE id = ?';
+    // التحقق من وجود جلسات في هذا المكان
+    const sessionsInLocation = await executeQuery('SELECT COUNT(*) as count FROM sessions WHERE location_id = ?', [id]);
+    if (sessionsInLocation[0].count > 0) {
+      return res.status(400).json({ 
+        success: false, 
+        message: `لا يمكن حذف المكان لأنه مستخدم في ${sessionsInLocation[0].count} جلسة` 
+      });
+    }
+    
+    // حذف فعلي من قاعدة البيانات
+    const query = 'DELETE FROM locations WHERE id = ?';
     const result = await executeQuery(query, [id]);
     
     if (result.affectedRows === 0) {

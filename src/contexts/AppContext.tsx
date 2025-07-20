@@ -700,9 +700,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const updateUser = async (id: string, user: Partial<User>) => {
     try {
+      console.log('🔄 تحديث المستخدم في AppContext:', id, user);
       const response = await apiService.updateUser(id, user);
+      console.log('📡 استجابة تحديث المستخدم:', response);
       if (response.success) {
+        console.log('✅ تم تحديث المستخدم بنجاح');
         await refreshData();
+      } else {
+        console.error('❌ فشل في تحديث المستخدم:', response.message);
+        throw new Error(response.message || 'فشل في تحديث المستخدم');
       }
     } catch (error) {
       console.error('Error updating user:', error);
