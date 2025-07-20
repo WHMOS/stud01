@@ -1,0 +1,263 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap');
+
+* {
+  font-family: 'Cairo', sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: background-color 0.2s ease;
+}
+
+/* تحسينات للعربية */
+.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+/* تأثيرات الرسوم المتحركة */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-slideIn {
+  animation: slideIn 0.3s ease-out;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* تحسينات للأزرار */
+.btn-primary {
+  @apply bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-200;
+}
+
+.btn-secondary {
+  @apply bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors duration-200;
+}
+
+.btn-success {
+  @apply bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors duration-200;
+}
+
+.btn-danger {
+  @apply bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors duration-200;
+}
+
+/* تحسينات للنماذج */
+.form-input {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+}
+
+.form-select {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+}
+
+/* تحسينات للبطاقات */
+.card {
+  @apply bg-white rounded-lg shadow-sm border p-6 hover:shadow-md transition-shadow duration-200;
+}
+
+/* تحسينات للتنبيهات */
+.alert {
+  @apply p-4 rounded-lg border-r-4;
+}
+
+.alert-success {
+  @apply bg-green-50 border-green-400 text-green-800;
+}
+
+.alert-error {
+  @apply bg-red-50 border-red-400 text-red-800;
+}
+
+.alert-warning {
+  @apply bg-yellow-50 border-yellow-400 text-yellow-800;
+}
+
+.alert-info {
+  @apply bg-blue-50 border-blue-400 text-blue-800;
+}
+
+/* تحسينات للجداول */
+.table {
+  @apply w-full divide-y divide-gray-200;
+}
+
+.table th {
+  @apply px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider;
+}
+
+.table td {
+  @apply px-6 py-4 whitespace-nowrap text-sm text-gray-900;
+}
+
+.table tr:hover {
+  @apply bg-gray-50;
+}
+
+/* تحسينات للشريط الجانبي */
+.sidebar {
+  @apply fixed inset-y-0 right-0 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out;
+}
+
+.sidebar-open {
+  @apply translate-x-0;
+}
+
+.sidebar-closed {
+  @apply translate-x-full;
+}
+
+/* تحسينات للاستجابة */
+@media (max-width: 768px) {
+  .mobile-hidden {
+    display: none;
+  }
+  
+  .mobile-full {
+    width: 100%;
+  }
+}
+
+/* تحسينات للتركيز */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+}
+
+/* تحسينات للحالات */
+.disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+.loading {
+  @apply animate-pulse;
+}
+
+/* تحسينات للألوان */
+.text-primary {
+  @apply text-blue-600;
+}
+
+.text-secondary {
+  @apply text-gray-600;
+}
+
+.text-success {
+  @apply text-green-600;
+}
+
+.text-danger {
+  @apply text-red-600;
+}
+
+.text-warning {
+  @apply text-yellow-600;
+}
+
+.bg-primary {
+  @apply bg-blue-600;
+}
+
+.bg-secondary {
+  @apply bg-gray-200;
+}
+
+.bg-success {
+  @apply bg-green-600;
+}
+
+.bg-danger {
+  @apply bg-red-600;
+}
+
+.bg-warning {
+  @apply bg-yellow-600;
+}
+
+/* تحسينات للمسافات */
+.spacing-sm {
+  @apply space-y-2;
+}
+
+.spacing-md {
+  @apply space-y-4;
+}
+
+.spacing-lg {
+  @apply space-y-6;
+}
+
+.spacing-xl {
+  @apply space-y-8;
+}
+
+/* تحسينات للظلال */
+.shadow-soft {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-medium {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-hard {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* تحسينات للحدود */
+.border-soft {
+  @apply border border-gray-200;
+}
+
+.border-medium {
+  @apply border-2 border-gray-300;
+}
+
+.border-hard {
+  @apply border-4 border-gray-400;
+}
+
+/* تحسينات للنصوص */
+.text-heading {
+  @apply text-2xl font-bold text-gray-900;
+}
+
+.text-subheading {
+  @apply text-lg font-semibold text-gray-800;
+}
+
+.text-body {
+  @apply text-base text-gray-700;
+}
+
+.text-caption {
+  @apply text-sm text-gray-600;
+}
+
+.text-small {
+  @apply text-xs text-gray-500;
+}
