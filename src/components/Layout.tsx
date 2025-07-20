@@ -89,6 +89,9 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
             if (item.id === 'whatsapp' && !hasPermission('whatsapp')) {
               return null;
             }
+            if (item.id === 'settings' && !hasPermission('settings')) {
+              return null;
+            }
             
             return (
               <button

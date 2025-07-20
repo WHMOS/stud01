@@ -3,7 +3,7 @@ import { useApp } from '../contexts/AppContext';
 import { Settings, Plus, Edit, Trash2, Search, MapPin, BookOpen, Users } from 'lucide-react';
 
 export const SettingsManagement: React.FC = () => {
-  const { locations, subjects, addLocation, updateLocation, deleteLocation, addSubject, updateSubject, deleteSubject } = useApp();
+  const { locations, subjects, sessions, teachers, addLocation, updateLocation, deleteLocation, addSubject, updateSubject, deleteSubject } = useApp();
   const [activeTab, setActiveTab] = useState('locations');
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddForm, setShowAddForm] = useState(false);

@@ -846,6 +846,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
   };
 
+    console.log('🔑 صلاحيات المستخدم:', userData.permissions);
   return (
     <AppContext.Provider
       value={{

@@ -16,6 +16,7 @@ export interface UserPermissions {
   attendance: boolean;
   reports: boolean;
   whatsapp: boolean;
+  settings: boolean;
   users: boolean;
 }
 

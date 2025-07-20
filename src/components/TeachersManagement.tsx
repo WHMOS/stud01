@@ -3,7 +3,7 @@ import { useApp } from '../contexts/AppContext';
 import { GraduationCap, Plus, Edit, Trash2, Search, Eye } from 'lucide-react';
 
 export const TeachersManagement: React.FC = () => {
-  const { teachers, subjects, addTeacher, updateTeacher, deleteTeacher } = useApp();
+  const { teachers, subjects, classes, addTeacher, updateTeacher, deleteTeacher } = useApp();
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingTeacher, setEditingTeacher] = useState<string | null>(null);

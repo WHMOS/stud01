@@ -3,7 +3,7 @@ import { useApp } from '../contexts/AppContext';
 import { Users, Plus, Edit, Trash2, Search, Eye } from 'lucide-react';
 
 export const StudentsManagement: React.FC = () => {
-  const { students, classes, addStudent, updateStudent, deleteStudent, generateStudentBarcode } = useApp();
+  const { students, classes, attendance, addStudent, updateStudent, deleteStudent, generateStudentBarcode } = useApp();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedClass, setSelectedClass] = useState('');
   const [showAddForm, setShowAddForm] = useState(false);

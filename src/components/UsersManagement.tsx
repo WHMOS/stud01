@@ -24,6 +24,7 @@ export const UsersManagement: React.FC = () => {
     attendance: true,
     reports: true,
     whatsapp: true,
+    settings: false,
     users: false
   });
 
@@ -221,6 +222,7 @@ export const UsersManagement: React.FC = () => {
                 attendance: 'تسجيل الحضور',
                 reports: 'التقارير',
                 whatsapp: 'إدارة الواتساب',
+                settings: 'الإعدادات',
                 users: 'إدارة المستخدمين'
               }).map(([key, label]) => (
                 <div key={key} className="flex items-center justify-between">
